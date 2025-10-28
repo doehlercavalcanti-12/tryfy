@@ -28,7 +28,7 @@
     "@nestjs/platform-socket.io": "^11.0.1",
     "@nestjs/typeorm": "^11.0.0",
     "@nestjs/websockets": "^11.0.1",
-    "cache-manager": "^5.7.6",
+    "cache-manager": "^6.0.0",
     "cache-manager-ioredis-yet": "^1.2.0",
     "ioredis": "^5.4.1",
     "pg": "^8.12.0",
