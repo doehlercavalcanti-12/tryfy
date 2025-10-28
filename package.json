@@ -1,0 +1,22 @@
+{
+  "name": "tryfy",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Tryfy monorepo",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "format": "prettier --write .",
+    "dev:web": "npm run dev --workspace @tryfy/web",
+    "dev:server": "npm run start:dev --workspace @tryfy/server",
+    "dev:cli": "npm run dev --workspace @tryfy/cli"
+  },
+  "devDependencies": {
+    "prettier": "3.3.3"
+  }
+}

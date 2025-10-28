@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: tryfy
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+  redis:
+    image: redis:7
+    ports:
+      - '6379:6379'
+  server:
+    build:
+      context: ..
+      dockerfile: infra/server.Dockerfile
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/tryfy
+      REDIS_URL: redis://redis:6379
+      PORT: 3001
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - '3001:3001'
+  web:
+    build:
+      context: ..
+      dockerfile: infra/web.Dockerfile
+    environment:
+      NEXT_PUBLIC_SOCKET_URL: http://localhost:3001/game
+    depends_on:
+      - server
+    ports:
+      - '3000:3000'
