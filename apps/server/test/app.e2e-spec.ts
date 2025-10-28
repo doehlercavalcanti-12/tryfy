@@ -5,8 +5,10 @@ import { AppModule } from '../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+  const previousNodeEnv = process.env.NODE_ENV;
 
   beforeAll(async () => {
+    process.env.NODE_ENV = 'test';
     const moduleFixture = await Test.createTestingModule({
       imports: [AppModule]
     }).compile();
@@ -17,6 +19,7 @@ describe('AppController (e2e)', () => {
 
   afterAll(async () => {
     await app.close();
+    process.env.NODE_ENV = previousNodeEnv;
   });
 
   it('/api/health (GET)', () => {

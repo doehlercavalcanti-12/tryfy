@@ -1,16 +1,57 @@
 import fetch, { type RequestInit } from 'cross-fetch';
 import { loadConfig } from '../utils/config.js';
 import { deviceCodeSchema, deviceCodeTokenSchema } from '@tryfy/contracts';
+import {
+  clearSession,
+  loadSession,
+  saveSession,
+  SessionError,
+  type StoredSession
+} from '../utils/session.js';
 
 export interface AuthContext {
   accessToken: string | null;
   expiresAt: number | null;
 }
 
-const authContext: AuthContext = {
+let authContext: AuthContext = {
   accessToken: null,
   expiresAt: null
 };
+let contextLoaded = false;
+
+async function ensureAuthContext(): Promise<void> {
+  if (contextLoaded) {
+    return;
+  }
+
+  contextLoaded = true;
+
+  try {
+    const persisted = await loadSession();
+    if (persisted) {
+      authContext = persisted;
+    }
+  } catch (error) {
+    if (error instanceof SessionError) {
+      throw error;
+    }
+
+    throw new SessionError('Unable to load cached session.', error);
+  }
+}
+
+async function persistContext(context: StoredSession): Promise<void> {
+  authContext = context;
+  contextLoaded = true;
+  await saveSession(context);
+}
+
+async function clearContext(): Promise<void> {
+  authContext = { accessToken: null, expiresAt: null };
+  contextLoaded = true;
+  await clearSession();
+}
 
 export async function requestDeviceCode(): Promise<{
   deviceCode: string;
@@ -51,13 +92,24 @@ export async function pollDeviceCode(deviceCode: string): Promise<void> {
     throw new Error('Device code polling failed. Please try again.');
   }
 
-  authContext.accessToken = parsed.data.accessToken;
-  authContext.expiresAt = Date.now() + parsed.data.expiresIn * 1000;
+  const context: StoredSession = {
+    accessToken: parsed.data.accessToken,
+    expiresAt: Date.now() + parsed.data.expiresIn * 1000
+  };
+
+  await persistContext(context);
 }
 
 export async function authenticatedFetch(path: string, init: RequestInit = {}): Promise<unknown> {
-  if (!authContext.accessToken || !authContext.expiresAt || Date.now() > authContext.expiresAt) {
+  await ensureAuthContext();
+
+  if (!authContext.accessToken || !authContext.expiresAt) {
     throw new Error('You must login using `tryfy login` before calling this command.');
+  }
+
+  if (Date.now() > authContext.expiresAt) {
+    await clearContext();
+    throw new Error('Your session has expired. Please login again using `tryfy login`.');
   }
 
   const { apiBaseUrl } = loadConfig();

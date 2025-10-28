@@ -9,12 +9,22 @@ import { redisStore } from 'cache-manager-ioredis-yet';
     CacheModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (config: ConfigService) => ({
-        store: await redisStore({
-          url: config.get<string>('redisUrl')
-        }),
-        ttl: 5 * 60
-      })
+      useFactory: async (config: ConfigService) => {
+        const isTest = config.get<boolean>('isTest');
+
+        if (isTest) {
+          return {
+            ttl: 5 * 60
+          };
+        }
+
+        return {
+          store: await redisStore({
+            url: config.get<string>('redisUrl')
+          }),
+          ttl: 5 * 60
+        };
+      }
     })
   ],
   exports: [CacheModule]
