@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: Tryfy API
+  version: 0.1.0
+servers:
+  - url: https://api.tryfy.fun
+    description: Production
+  - url: https://api.tryfy.online
+    description: Staging
+  - url: https://api.tryfy.local
+    description: Local development
+paths:
+  /auth/device/code:
+    post:
+      summary: Request a device code
+      responses:
+        '200':
+          description: Device code response
+  /auth/device/token:
+    post:
+      summary: Exchange a device code for tokens
+      responses:
+        '200':
+          description: Device token response
+  /history:
+    get:
+      summary: List match history
+      responses:
+        '200':
+          description: Match history list
+  /history/export:
+    get:
+      summary: Export match history
+      responses:
+        '200':
+          description: Exported history data
+  /tickets/balance:
+    get:
+      summary: Retrieve ticket balance
+      responses:
+        '200':
+          description: Current ticket balance
+  /admin/sessions:
+    get:
+      summary: List admin sessions
+      responses:
+        '200':
+          description: Admin sessions
+  /admin/audit:
+    get:
+      summary: Fetch admin audit log
+      responses:
+        '200':
+          description: Audit log entries

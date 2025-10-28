@@ -1,0 +1,33 @@
+{
+  "name": "@tryfy/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "tryfy": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest run",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "commander": "12.1.0",
+    "cross-fetch": "4.0.0",
+    "dotenv": "16.4.5",
+    "zod": "3.23.8",
+    "@tryfy/contracts": "workspace:*",
+    "@tryfy/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.10",
+    "@typescript-eslint/eslint-plugin": "7.16.0",
+    "@typescript-eslint/parser": "7.16.0",
+    "eslint": "9.7.0",
+    "eslint-config-prettier": "9.1.0",
+    "tsx": "4.17.0",
+    "typescript": "5.5.4",
+    "vitest": "1.6.0"
+  }
+}
