@@ -12,13 +12,28 @@ import { MatchHistory } from './entities/match-history.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (config: ConfigService) => ({
-        type: 'postgres',
-        url: config.get<string>('databaseUrl'),
-        entities: [Player, MatchHistory],
-        synchronize: true,
-        logging: false
-      })
+      useFactory: async (config: ConfigService) => {
+        const isTest = config.get<boolean>('isTest');
+
+        if (isTest) {
+          return {
+            type: 'sqlite' as const,
+            database: ':memory:',
+            entities: [Player, MatchHistory],
+            synchronize: true,
+            dropSchema: true,
+            logging: false
+          };
+        }
+
+        return {
+          type: 'postgres' as const,
+          url: config.get<string>('databaseUrl'),
+          entities: [Player, MatchHistory],
+          synchronize: true,
+          logging: false
+        };
+      }
     })
   ],
   exports: [TypeOrmModule]
