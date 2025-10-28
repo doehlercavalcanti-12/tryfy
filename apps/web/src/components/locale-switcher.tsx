@@ -1,6 +1,6 @@
 'use client';
 
-import { locales } from '@tryfy/shared';
+import { locales } from '@../../../packages/shared/src/index';
 import { useI18n } from '@/providers/i18n-provider';
 
 export function LocaleSwitcher() {

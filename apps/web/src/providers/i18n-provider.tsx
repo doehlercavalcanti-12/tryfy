@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
-import { defaultLocale, locales, messages } from '@tryfy/shared';
+import { defaultLocale, locales, messages } from '../../../../packages/shared/src/index';
 
 interface I18nContextValue {
   locale: string;
