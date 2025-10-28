@@ -35,9 +35,9 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.20",
-    "@tryfy/contracts": "workspace:*",
-    "@tryfy/shared": "workspace:*",
-    "@tryfy/moderation": "workspace:*",
+    "@tryfy/contracts": "file:../../packages/contracts",
+    "@tryfy/shared": "file:../../packages/shared",
+    "@tryfy/moderation": "file:../../packages/moderation",
     "class-validator": "^0.14.1",
     "class-transformer": "^0.5.1"
   },

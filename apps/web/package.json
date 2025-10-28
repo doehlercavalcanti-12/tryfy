@@ -17,9 +17,9 @@
     "react-dom": "19.2.0",
     "socket.io-client": "4.7.5",
     "zustand": "5.0.0",
-    "@tryfy/contracts": "workspace:*",
-    "@tryfy/shared": "workspace:*",
-    "@tryfy/moderation": "workspace:*"
+    "@tryfy/contracts": "file:../../packages/contracts",
+    "@tryfy/shared": "file:../../packages/shared",
+    "@tryfy/moderation": "file:../../packages/moderation"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

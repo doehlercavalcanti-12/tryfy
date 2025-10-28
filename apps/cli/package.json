@@ -17,8 +17,8 @@
     "cross-fetch": "4.0.0",
     "dotenv": "16.4.5",
     "zod": "3.23.8",
-    "@tryfy/contracts": "workspace:*",
-    "@tryfy/shared": "workspace:*"
+    "@tryfy/contracts": "file:../../packages/contracts",
+    "@tryfy/shared": "file:../../packages/shared"
   },
   "devDependencies": {
     "@types/node": "20.14.10",
